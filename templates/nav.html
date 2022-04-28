@@ -1,0 +1,57 @@
+{% load static %}
+
+</style>
+<header class="navbar fixed-top navbar-expand-md navbar-dark bg-dark flex-column mb-5">
+    <div class="container-fluid c1">
+        <a class="navbar-brand logo" href="{% url 'home' %}">
+            <img src="{% static 'images/header/logo.jpg' %}" style="width:40px;"" alt="logo" href="#"/>
+            <i>Lets shop</i>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#theheader" >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-around" id="theheader">
+            <form class="d-flex col-lg-6 col-sm-6" method="POST" action="{% url 'home' %}">
+                {% csrf_token %}
+                <input class="form-control me-2" type="text" name="q" value="" placeholder="search products ....."/>
+                <input class="btn btn-primary" type="submit" value="submit"  />
+            </form>
+            <ul class="nav nav-pills justify-content-center" id="headernav">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle='pill' href="{% url 'home' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"  data-toggle='pill' href="{% url 'aboutus' %}">About us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"  data-toggle='pill' href="{% url 'contact' %}">Contact us</a>
+                </li>
+                <li class="nav-item" id="cart-image">
+                    <a class="nav-link" href="{% url 'cart' %}">
+                        <img src="{% static 'images/header/cart.png'  %}" alt="cart-icon">
+                    </a>
+                    <p>{{cartitems}}</p>
+                </li>
+            </ul>
+            {% if request.user.is_authenticated %}
+            <div class="login">
+                <a class="btn btn-primary" href="{% url 'logout' %}">logout</a>
+                <span>@ {{request.user}}</span>
+            </div>
+            {% else %}
+            <div class="login">
+                <a class="btn btn-primary" href="{% url 'login' %}">Login</a>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="container mt-4" id="mwk"">
+    {%for category in categories %}
+    <p class="col-md-4" onclick="open_catheader()">{{category.name}}</p>
+    {% endfor %}
+    </div>
+
+    {% include 'store/category.html' %}
+</header>   

@@ -1,0 +1,176 @@
+{% extends 'main.html' %}
+
+{% load static %}
+{% block content %} 
+
+<main class="container row main">
+
+        <div class="col-md-6 col-sm-6 product-page">
+            <div class="d-flex flex-column sub-image">
+                <img src="{{product.image.url}}" alt="product" />
+                <img src="{{product.image.url}}" alt="product" />
+                <img src="{{product.image.url}}" alt="product" />
+                <img src="{{product.image.url}}" alt="product" />
+            </div>
+        <div>
+            <img src="{{product.image.url}}" alt="product" />
+        </div>
+        </div>
+
+        <div class="col-md-6 col-sm-6 d-flex flex-column product-details">
+            <h3>{{product.name}}</h3>
+            <p > {{product.price}}</p>
+            <!-- <p > Description : 250 Rs</p> -->
+            <form class="d-flex" method="GET" action="" >
+                <label for="i"> Select Size : </label>
+                <input type="text" id="i" name="" hidden />
+                <p>S</p>
+                <p>M</p>
+                <p>L</p>
+                <p>XL</p>
+                <p>XXL</p>
+            </form>
+            <!-- <p > Shop : The lets shop </p> -->
+            <div class="d-flex mt-5 justify-content-around">
+                <button class="btn btn-primary">Add to cart</button>
+                <button class="btn btn-primary chat-btn">chat</button>
+            </div>
+        </div>
+    </main>
+
+    <section class="container chat row my-3 m-auto bg-dark" id="chat" style="display: none;">
+        <div class="col-md-10">
+            <h3 class="my-4">Chat</h3>
+        <div class="chat-section">
+            <div class="sub-chat">
+                <p>@anil  <span>2 minutes ago</span></p>
+                <p> Hi </p>
+            </div>
+
+            <div class="sub-chat">
+                <p>@akashappanna  <span>4 minutes ago</span></p>
+                <p> Hello </p>
+            </div>
+
+            <div class="sub-chat">
+                <p>@anil  <span>2 minutes ago</span></p>
+                <p> lest start </p>
+            </div>
+
+            <div class="sub-chat">
+                <p>@akashappanna  <span>4 minutes ago</span></p>
+                <p> we can see this product </p>
+            </div>
+
+            <div class="sub-chat">
+                <p>@anil  <span>2 minutes ago</span></p>
+                <p> Hi </p>
+            </div>
+
+            <div class="sub-chat">
+                <p>@akashappanna  <span>4 minutes ago</span></p>
+                <p> Hello </p>
+            </div>
+
+            <div class="sub-chat">
+                <p>@anil  <span>2 minutes ago</span></p>
+                <p> lest start </p>
+            </div>
+
+            <div class="sub-chat">
+                <p>@akashappanna  <span>4 minutes ago</span></p>
+                <p> we can see this product </p>
+            </div>
+        </div>
+            <form method="" action="">
+                <input class="chat-form1" type="text" name="" value="" placeholder="Write something..."/>
+                <input class="chat-form2" type="submit" value="Send" />
+            </form>
+        </div>
+        <div class="col-md-2">
+            <button type="button" class="btn btn-primary chat-btn">close chat</button>
+        </div>
+    </section>
+
+    <section class="container chat row my-3 m-auto bg-dark">
+        <div class="col-md-6">
+            <h3 class="my-4">Product details</h3>
+        <div class="Product-details-section">
+            <p>
+                <span>Warrenty details : </span>
+                It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).
+            </p>
+            <p>
+                <span>Return Policy : </span>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+            </p>
+        </div>
+        </div>
+        <div class="col-md-6 border-primary" id="review">
+            <h3 class="my-4">Reviews</h3>
+            <hr>
+        <div class="chat-section">
+            {%for review in reviews %}
+            <div class="sub-chat">
+                <p>@ {{review.user.username}} 
+                    <span> {{review.created|timesince}} ago</span>
+                    {% if request.user == review.user %}
+                    <a href="{% url 'deletereview' review.id %}?q={{product.id}}" style="float: right;text-align: end;">
+                        <img src="{% static 'images/header/trash.png'%}" alt="trash" style="width:30%;">
+                    </a>
+                    {% endif %}
+                </p>
+                <p> {{review.body}} </p>
+            </div>
+            {% endfor %}
+        </div>
+        <i class="bi bi-trash-fill"></i>
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input class="chat-form1" type="text" name="body" value="" placeholder="Write something..."/>
+                <input class="chat-form2" type="submit" value="Send" />
+            </form>
+        </div>
+
+    </section>
+
+    <section class="related-products container m-auto my-4 bg-dark">
+        <h3 class="my-3 mx-2">Related products</h3>
+        <div class="row product-section">
+            {% for p in products%}
+            <div class="col-md-4 col-sm-6 d-flex flex-column">
+                <a href="{% url 'products' p.id %}" target="">
+                <img src="{{p.image.url}}" alt="product" />
+                <p>{{p.name}}</p>
+                <p>{{p.price}}</p>
+                </a>
+                <button class="btn btn-primary" type="button"><a href="{% url 'cart' %}">Add to cart</a></button>
+            </div>
+            {% endfor %}
+    </section>
+</div>
+<script>
+    function open_catheader() {
+  let subcat = document.getElementById("sub-cat");
+
+  if (subcat.style.display == "none") {
+    subcat.style.display = "flex";
+  } else {
+    subcat.style.display = "none";
+  }
+}
+
+let chat = document.getElementById("chat");
+let chat_btn = document.getElementsByClassName("chat-btn");
+
+for (var i = 0; i < chat_btn.length; i++) {
+  chat_btn[i].addEventListener("click", function () {
+    if (chat.style.display == "none") {
+      chat.style.display = "flex";
+    } else {
+      chat.style.display = "none";
+    }
+  });
+}
+</script>
+{% endblock %}

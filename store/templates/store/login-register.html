@@ -1,0 +1,63 @@
+{% extends 'main.html' %}
+
+{% load static %}
+{% block content %} 
+<main class="row container main">
+    {% if page == 'login' %}
+    <div class="col-md-6 col-sm-10 m-auto mb-4 p-5 bg-dark login-section">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <h3> Welcome to <i>Lets shop</i> </h3>
+            <div class="col-md-12 login-section-sub">
+            <label class="label">Username</label>
+            <input class="col-12" type="text" name="username" placeholder="Enter your username">
+            </div>
+            <div class="col-md-12 login-section-sub">
+            <label class="label">Password</label>
+            <input class="col-12" type="password" name="password" placeholder="Enter your username">
+            </div>
+            <input class='btn btn-primary my-4' type="submit" value="Login">
+        </form>
+        {% if messages %}
+          <ul class="messages">
+              {% for message in messages %}
+               <li>{{ message }}</li>
+              {% endfor %}
+          </ul>
+        {% endif %}
+
+        <p> Haven't Signed up yet ?</p>
+        <a href="{% url 'register' %}">Sign in</a>
+    </div>
+    {% else %}
+
+    <div class="col-md-6 col-sm-10 m-auto mb-4 p-5 bg-dark login-section">
+        <form method="POST" action="">
+            {% csrf_token %}
+            <h3> Join <i>Lets shop</i> </h3>
+            <div class="col-md-12 login-section-sub">
+                {% for field in form %}
+            <label class="label">{{field.label}}</label>
+            <!-- <input class="col-12" type="text" name="username" placeholder="Enter your username"> -->
+            {{field}}
+            {% endfor %}
+            </div>
+            <!-- <div class="col-md-12 login-section-sub">
+            <label class="label">Password</label>
+            <input class="col-12" type="password" name="password" placeholder="Enter your username">
+            </div> -->
+            <input class='btn btn-primary my-4' type="submit" value="Register">
+        </form>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+             <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+      {% endif %}
+        <p> Already Signed up ?</p>
+        <a href="{% url 'login' %}">Login</a>
+    </div>
+    {% endif %}
+</main>
+{% endblock %}

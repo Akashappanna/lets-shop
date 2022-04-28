@@ -1,0 +1,10 @@
+
+<div class="container mt-3 hide" id="sub-cat" style="display:none;">
+    {% for i in product_categories %}
+    <div class="col p-4">
+        <form method="POST" action="">
+        <strong><a href="{% url 'home' %}?q={{i.product_cat}}">{{i.product_cat}}</a></strong>
+        </form>
+    </div>
+    {% endfor %}
+</div>
